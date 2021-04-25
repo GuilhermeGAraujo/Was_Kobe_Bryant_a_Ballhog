@@ -13,31 +13,30 @@ First, let's explore the all-time list data, to get a better understanding of it
 
 ## Exploratory Analysis
 
-[Distribution plot of the assist stats](/plots/ast_stats_distplot.png)
+![ast_stats_distplot](https://user-images.githubusercontent.com/65792526/115998289-f4893700-a5bc-11eb-8009-2ae1f6679ca4.png)
 
-[Boxplot of the assists stats by position](/plots/assist_boxplot.png)
+![assist_boxplot](https://user-images.githubusercontent.com/65792526/115998300-0074f900-a5bd-11eb-9b6b-d7fad4d8d491.png)
 
 
 With the boxplot, we can see the majority of the variance in the data is contained in the PG and SG. That's because the majority, 93, of players are split among these two positions, with Shooting Guards having a higher variance.
 
 Basketball is a game of many stats and to compare Kobe among the other 99 players in every stat would not only take a long time but would also be a waste of it. As some stats won't help us better understand the relationship between players when it comes to assists or how selfish a player is So for this exploratory analysis we will focus on the stats that have higher absolute correlation values with assists.
 
-[Heatmap of the stats with Pearson's correlation ablosute value above 0.2 with assist](/plots/corr_heatmap.png)
+![corr_heatmap](https://user-images.githubusercontent.com/65792526/115998306-0965ca80-a5bd-11eb-8356-b5bc8a53728e.png)
 
 Some interesting data points are how AST is not negatively correlated to any other features, but AST% and AST_PerG are negatively correlated with the majority of them. Another data point that initially surprised me was the relationship between AST and TOV, the third strongest assist correlation, but after thinking for a second it makes sense. A player who has a lot of assists is the one that passes the ball a lot and the most common type of turnovers comes from passes (https://squared2020.com/2019/01/27/the-no-turnover-turnover/). Three other variables that I'd like to add are points (PTS), minutes per game (MP_PerG) and career length (C_LEN) as these represent well some of the arguments against Kobe, prefers shooting over passing and played a lot.
 
-[Scatter plot of total assists over many variables](/plots/scatter_plot.png)
+![scatter_plot](https://user-images.githubusercontent.com/65792526/115998317-184c7d00-a5bd-11eb-8388-05ff9078451d.png)
 
 The analysis of this graph doesn't bold well for the Black Mamba. Kobe needed a higher number of assists than average to reach the same value of assists per game and ast%. He's also below average in many other statistics. (It's worth noting that the average here is a simple linear regression that, in most cases, is not a good fit. We're using it simply as a visual aid.)
 
 "But Kobe is a shooting guard, not a passing guard." is another phrase that we hear when this is discussed. Well, we have 46 shooting guards out of a hundred, so we can assume that a shooting guard is a position that gets a lot of assists, almost as much as a point guard). But it's Kobe more of a "shooting" guard than other SGs?
 
-[Kobe's standard deviation from others SG in the top 100 assist leader](/plots/std_dev_barrplot.png)
+![std_dev_barrplot](https://user-images.githubusercontent.com/65792526/115998333-269a9900-a5bd-11eb-8095-6ec96ca101ac.png)
 
 Yeah, it looks like he is.The results are almost a mirror from the comparison among all positions, we can also see how little his assists number deviate from the mean when compared to other stats like points, win shares, and field goal attempts.
 
 From the exploratory analysis, the conclusion I've arrived at is that Kobe's high assist numbers are a product of higher minutes per game played than average for a higher number of games started and career length than most players. And that he was a more selfish player than average.
-
 
 We've looked at the variables isolated and compared them to the assist numbers, not evaluating how these variables might interact with each other and give us a more clear image. To take this into account we will build a model that encapsulates the variables and hopefully can give us a better understanding of the data.
 
@@ -48,11 +47,11 @@ We will be using the variables with an absolute Pearson correlation value above 
 
 Limiting the number of variables reduces the number of components necessary to reach 85% variance to 3.
 
-[Scree and Cumulative plots for the PCA](/plots/scree_plot.pmg)
+![scree_plot](https://user-images.githubusercontent.com/65792526/115998346-31edc480-a5bd-11eb-962c-195d43671c25.png)
 
 Let's take a better look at the 3 principle components.
 
-[PCA loading](/plots/loading_heatmap.png)
+![loading_heatmap](https://user-images.githubusercontent.com/65792526/115998356-3b772c80-a5bd-11eb-8db1-f3bc1cec0b8b.png)
 
 Taking a look at the loadings of each component we can interpret what information they try to explain. PC1 explains the variance of the data taking into account the offensive prowess of the players indicated by the high loading of free throws statics, points, and win shares (WS and OWS) PC2 gives importance to the number of assists(the three assist stats that have the highest loadings) PC3, on the other hand, tries to explain the variance with the amount of time the player played (G, MP, and C_LEN) and the number of assists
 
@@ -60,7 +59,7 @@ With this in mind, we can expect that scoring-minded players will have a high PC
 
 With three principal components, we get a good amount of explained variance and each component gives us three good directions to evaluate the players, but it would also require a 3D visualization. For visualization purposes, we will use only two components (the elbow method also supports this choice). Fortunately, the two components give us a good amount of explained variance (75%), and the difference in directions of the weights between PC1 and PC2 on G, MP, and C_LEN could overturn the loss of the PC3 information.
 
-[PC1 x PC2 scatter plot](/plots/PCA_scatterplotpng)
+![PCA_scatterplot](https://user-images.githubusercontent.com/65792526/115998366-4336d100-a5bd-11eb-8bd1-b35eadb62949.png)
 
 Kobe is well above the median in terms of scoring and below the median when it comes to passing. The PCA model also leads us to the same conclusion. Despite Kobe being among the top 100 assist leaders in the NBA, he was not a prolific passer, and most likely his high assists numbers are due to the number of minutes he was on the floor. 
 
@@ -70,5 +69,4 @@ I also highlighted some renowned great scorers that also are in the top 100 assi
 Yes, Kobe was a ball hog and the criticism he received was deserved, maybe it was highlighted a bit more than Vince Carter and Paul Pierce because Kobe was a much better player.
 
 We could've done this analysis among all SG or among all other players, maybe this would be more fair to Kobe. The reason I choose to do this analysis among the all time assit leaders is because the argument that most Kobe defenders(I was one of them) used was his belonging to this list.
-
 
