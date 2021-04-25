@@ -219,4 +219,4 @@ ast_leaders.rename(columns ={'Pos_x':'Pos', 'G_x': 'G', 'MP_x': 'MP' }, inplace 
 
 #%% 
 # Finally saving it for EDA on upyter la
-#ast_leaders.to_pickle('ast_leaders.pkl')
+ast_leaders.to_pickle('ast_leaders.pkl')
